@@ -6,61 +6,50 @@
 /*   By: fharing <fharing@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 15:38:08 by fharing           #+#    #+#             */
-/*   Updated: 2021/07/05 11:32:31 by fharing          ###   ########.fr       */
+/*   Updated: 2021/07/13 10:19:32 by fharing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+//dell meeeee!
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-static int	ft_resetline(char **line)
+static void	ft_end(char **line, char **re)
 {
-	*line = ft_calloc(1, 1);
-	return (0);
-}
-
-static char	*ft_strdup(char *tmp)
-{
-	char	*re;
-	size_t	i;
-
-	i = 0;
-	re = (char *)malloc(ft_strlen(tmp) + 1);
-	if (re == NULL)
-		return (NULL);
-	while (i < ft_strlen((tmp)))
+	*line = ft_strdup(*re);
+	if (*line[0] == 0)
 	{
-		re[i] = tmp[i];
-		i++;
+		free(*line);
+		*line = NULL;
 	}
-	re[i] = '\0';
-	return (re);
+	free (*re);
+	*re = NULL;
 }
 
-static int	ft_fill(int bytesred, char **re, char **line)
+static char	*ft_fill(int bytesred, char **re, char **line)
 {
 	int		i;
 	char	*tmp;
 
-	if (bytesred < 0)
-		return (-1);
 	i = 0;
+	if (bytesred < 0)
+		return (NULL);
 	while (re[0][i] != '\0' && re[0][i] != '\n')
 		i++;
 	if (re[0][i] == '\n')
 	{
-		*line = ft_substr(*re, 0, i);
+		*line = ft_substr(*re, 0, i + 1);
 		tmp = ft_strdup(&re[0][i + 1]);
 		free (*re);
 		*re = tmp;
-		return (1);
+		return (*line);
 	}
 	else
-	{
-		*line = ft_strdup(*re);
-		free (*re);
-		*re = NULL;
-	}
-	return (0);
+		ft_end(line, re);
+	return (*line);
 }
 
 static int	ft_read(int bytesred, int fd, char *buff, char **re)
@@ -79,24 +68,52 @@ static int	ft_read(int bytesred, int fd, char *buff, char **re)
 			*re = tmp;
 		}
 		if (ft_isnewline(buff) == 1)
-			break ;
+			return (bytesred);
 		bytesred = read(fd, buff, BUFFER_SIZE);
 	}
 	return (bytesred);
 }
 
-int	get_next_line(int fd, char **line)
+char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE + 1];
+	char		*buff;
 	int			bytesred;
 	static char	*re;
+	int			i;
+	char		*line;
 
-	if (fd < 0 || line == NULL)
-		return (-1);
-	bytesred = read(fd, buff, BUFFER_SIZE);
+	i = 0;
+	if (fd < 0)
+		return (NULL);
+	bytesred = 0;
+	if (re == NULL || ft_isnewline(re) == 0)
+	{
+		buff = malloc(BUFFER_SIZE + 1);
+		i = 1;
+		bytesred = read(fd, buff, BUFFER_SIZE);
+	}
 	if (bytesred > 0)
 		bytesred = ft_read(bytesred, fd, buff, &re);
+	if (i == 1)
+		free (buff);
 	if (bytesred == 0 && re == NULL)
-		return (ft_resetline(line));
-	return (ft_fill(bytesred, &re, line));
+		return (NULL);
+	return (ft_fill(bytesred, &re, &line));
+}
+
+int	main(void)
+{
+	char *s = "1";
+	int e = 1;
+	int fd = open("normal",O_RDONLY);
+	if (fd == -1)
+		return (0);
+	while (s != NULL)
+	{
+		s = get_next_line(fd);
+		printf("%d OUTPUT: %s",e++,s);
+		free(s);
+	}
+	if (close(fd) == -1)
+		return (0);
 }

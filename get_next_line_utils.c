@@ -6,7 +6,7 @@
 /*   By: fharing <fharing@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 15:41:20 by fharing           #+#    #+#             */
-/*   Updated: 2021/07/02 15:20:44 by fharing          ###   ########.fr       */
+/*   Updated: 2021/07/12 18:02:36 by fharing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,22 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-void	*ft_calloc(size_t nitems, size_t size)
+char	*ft_strdup(char *tmp)
 {
-	void	*a;
-	char	*b;
+	char	*re;
 	size_t	i;
 
 	i = 0;
-	b = (char *)malloc(nitems * size);
-	if (b == NULL)
+	re = (char *)malloc(ft_strlen(tmp) + 1);
+	if (re == NULL)
 		return (NULL);
-	while (i < nitems * size)
+	while (tmp[i] != '\0')
 	{
-		b[i] = 0;
+		re[i] = tmp[i];
 		i++;
 	}
-	a = (void *)b;
-	return (a);
+	re[i] = '\0';
+	return (re);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
