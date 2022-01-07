@@ -38,3 +38,7 @@ Go to the repository and compile the function with:
 gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
 ```
 For the sake of simplicty i added a main into the get_next_line.c file and a test text document(textfile).
+If you want to test with another file just change line 103 in get_next_line.c to the new filename.
+```code
+open("FILENAME HERE",O_RDONLY);
+```
