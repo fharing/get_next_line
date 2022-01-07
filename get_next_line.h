@@ -6,6 +6,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 char	*get_next_line(int fd);
 int		ft_isnewline(char *s);
