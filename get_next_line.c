@@ -98,14 +98,13 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	char *s = "1";
-	int e = 1;
-	int fd = open("normal",O_RDONLY);
+	char	*s = NULL;
+	int		e = 1;
+	int		fd = open("normal",O_RDONLY);
 	if (fd == -1)
 		return (0);
-	while (s != NULL)
+	while ((s = get_next_line(fd)) != NULL)
 	{
-		s = get_next_line(fd);
 		printf("%d OUTPUT: %s",e++,s);
 		free(s);
 	}
