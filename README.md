@@ -33,7 +33,8 @@ Clone the repository:
 ```bash
 https://github.com/fharing/get_next_line.git
 ```
-Go to the repository and compile the function with a main.c file:
+Go to the repository and compile the function with:
 ```bash
-gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 <files>.c
+gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
 ```
+For the sake of simplicty i added a main into the get_next_line.c file and a test text document(textfile).
