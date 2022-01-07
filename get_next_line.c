@@ -11,11 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//dell meeeee!
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <fcntl.h>
-#include <stdio.h>
 
 static void	ft_end(char **line, char **re)
 {
