@@ -42,3 +42,9 @@ If you want to test with another file just change line 103 in get_next_line.c to
 ```code
 open("FILENAME HERE",O_RDONLY);
 ```
+
+__PLEASE NOTE THAT ALL PROJECTS AT 42 ARE WRITTEN ACCORDING TO THE NORMINETTE, WHICH PROVIDES US A WAY OF HOW TO WRITE CLEAN/READABLE CODE!__
+
+```LINK
+https://github.com/42School/norminette/blob/921b5e22d991591f385e1920f7e7ee5dcf71f3d5/pdf/en.norm.pdf
+```
